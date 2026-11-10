@@ -1,0 +1,204 @@
+{
+  "label": "MOCK upstream providers on localhost with seeded fault injection; prices are ILLUSTRATIVE",
+  "date": "2026-11-10",
+  "machine": "arm64 darwin Apple M2 Pro, Node v24.15.0",
+  "config": {
+    "n_per_scenario": 200,
+    "concurrency": 10,
+    "tokens_per_answer": 40,
+    "primary": {
+      "ttft_ms": "300±50",
+      "inter_token_ms": 10
+    },
+    "secondary": {
+      "ttft_ms": "500±100",
+      "inter_token_ms": 15
+    },
+    "gateway": {
+      "ttft_timeout_ms": 1000,
+      "idle_timeout_ms": 300
+    },
+    "price_usd_per_m_out": {
+      "primary": 10,
+      "secondary": 2
+    }
+  },
+  "results": [
+    {
+      "scenario": "baseline-direct",
+      "path": "direct-to-primary",
+      "policy": null,
+      "faults": {},
+      "n": 200,
+      "success_rate": 1,
+      "ttft_ms": {
+        "p50": 306.3,
+        "p95": 348.5
+      },
+      "total_ms": {
+        "p50": 733.8,
+        "p95": 781.6
+      },
+      "requests_with_fallback": 0,
+      "upstream_faults": {
+        "503": 0,
+        "stall": 0,
+        "drop": 0
+      },
+      "tokens_billed": {
+        "primary": 8000,
+        "secondary": 0
+      },
+      "tokens_billed_per_success": 40,
+      "illustrative_usd_per_1k_successful_tasks": 0.4
+    },
+    {
+      "scenario": "gateway-healthy",
+      "path": "gateway",
+      "policy": "resume",
+      "faults": {},
+      "n": 200,
+      "success_rate": 1,
+      "ttft_ms": {
+        "p50": 304,
+        "p95": 345.8
+      },
+      "total_ms": {
+        "p50": 733,
+        "p95": 777.6
+      },
+      "requests_with_fallback": 0,
+      "upstream_faults": {
+        "503": 0,
+        "stall": 0,
+        "drop": 0
+      },
+      "tokens_billed": {
+        "primary": 8000,
+        "secondary": 0
+      },
+      "tokens_billed_per_success": 40,
+      "illustrative_usd_per_1k_successful_tasks": 0.4
+    },
+    {
+      "scenario": "primary-503-20pct",
+      "path": "gateway",
+      "policy": "resume",
+      "faults": {
+        "503": 0.2
+      },
+      "n": 200,
+      "success_rate": 1,
+      "ttft_ms": {
+        "p50": 311.8,
+        "p95": 552.5
+      },
+      "total_ms": {
+        "p50": 730.4,
+        "p95": 1174.6
+      },
+      "requests_with_fallback": 45,
+      "upstream_faults": {
+        "503": 45,
+        "stall": 0,
+        "drop": 0
+      },
+      "tokens_billed": {
+        "primary": 6200,
+        "secondary": 1800
+      },
+      "tokens_billed_per_success": 40,
+      "illustrative_usd_per_1k_successful_tasks": 0.328
+    },
+    {
+      "scenario": "primary-stall-20pct",
+      "path": "gateway",
+      "policy": "resume",
+      "faults": {
+        "stall": 0.2
+      },
+      "n": 200,
+      "success_rate": 1,
+      "ttft_ms": {
+        "p50": 314.2,
+        "p95": 1552.4
+      },
+      "total_ms": {
+        "p50": 741,
+        "p95": 2175.2
+      },
+      "requests_with_fallback": 45,
+      "upstream_faults": {
+        "503": 0,
+        "stall": 45,
+        "drop": 0
+      },
+      "tokens_billed": {
+        "primary": 6200,
+        "secondary": 1800
+      },
+      "tokens_billed_per_success": 40,
+      "illustrative_usd_per_1k_successful_tasks": 0.328
+    },
+    {
+      "scenario": "primary-drop-20pct-policy-error",
+      "path": "gateway",
+      "policy": "error",
+      "faults": {
+        "drop": 0.2
+      },
+      "n": 200,
+      "success_rate": 0.775,
+      "ttft_ms": {
+        "p50": 306.6,
+        "p95": 370.9
+      },
+      "total_ms": {
+        "p50": 741.8,
+        "p95": 816
+      },
+      "requests_with_fallback": 45,
+      "upstream_faults": {
+        "503": 0,
+        "stall": 0,
+        "drop": 45
+      },
+      "tokens_billed": {
+        "primary": 7100,
+        "secondary": 0
+      },
+      "tokens_billed_per_success": 45.8,
+      "illustrative_usd_per_1k_successful_tasks": 0.4581
+    },
+    {
+      "scenario": "primary-drop-20pct-policy-resume",
+      "path": "gateway",
+      "policy": "resume",
+      "faults": {
+        "drop": 0.2
+      },
+      "n": 200,
+      "success_rate": 1,
+      "ttft_ms": {
+        "p50": 304.3,
+        "p95": 344.7
+      },
+      "total_ms": {
+        "p50": 741.7,
+        "p95": 1377
+      },
+      "requests_with_fallback": 45,
+      "upstream_faults": {
+        "503": 0,
+        "stall": 0,
+        "drop": 45
+      },
+      "tokens_billed": {
+        "primary": 7100,
+        "secondary": 900
+      },
+      "tokens_billed_per_success": 40,
+      "illustrative_usd_per_1k_successful_tasks": 0.364
+    }
+  ]
+}

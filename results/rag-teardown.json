@@ -1,0 +1,160 @@
+{
+  "subject": "braylo-si-rag @ a1403da627a494d5b91ee839cb80cb582c89c38e",
+  "date": "2026-11-10",
+  "machine": "arm64 darwin Apple M2 Pro, Node v24.15.0",
+  "token_note": "Prompt tokens use the repo's own estTokens (chars/4) — an ESTIMATE, not a Llama tokenizer count.",
+  "cost_note": "Cost uses the repo's PRICING table for @cf/meta/llama-3.3-70b-instruct-fp8-fast (neurons, read by that repo from developers.cloudflare.com/workers-ai/platform/pricing on 2026-10-27). The free tier pays $0. Output lengths 150/400 are ASSUMPTIONS, not measured.",
+  "repo_tests": {
+    "tests": 24,
+    "pass": 24,
+    "fail": 0
+  },
+  "repo_eval_reproduced": {
+    "bm25_all": {
+      "n": 24,
+      "precision@1": 0.625,
+      "recall@1": 0.357,
+      "precision@3": 0.444,
+      "recall@3": 0.645,
+      "precision@5": 0.342,
+      "recall@5": 0.81,
+      "hit_rate_at_5": 0.917,
+      "mrr": 0.726
+    },
+    "bm25_test": {
+      "n": 12,
+      "precision@1": 0.5,
+      "recall@1": 0.306,
+      "precision@3": 0.333,
+      "recall@3": 0.5,
+      "precision@5": 0.283,
+      "recall@5": 0.771,
+      "hit_rate_at_5": 0.833,
+      "mrr": 0.605
+    },
+    "scope_guard_test": {
+      "n": 19,
+      "accuracy": 0.842,
+      "off_topic_blocked": "7/7",
+      "on_topic_false_blocks": "3/12"
+    },
+    "injection_guard": {
+      "source": "agent-14 evals/cases.json",
+      "attacks_blocked": "29/30",
+      "benign_false_positives": "0/10",
+      "braylo_queries_false_positives": "0/24",
+      "note": "Rules were tuned on the agent-14 set, so its numbers are optimistic."
+    },
+    "extractive": {
+      "answer_contains_gold_phrase": 0.417,
+      "wrongly_blocked": [
+        "r11",
+        "r16",
+        "r22",
+        "r23"
+      ]
+    }
+  },
+  "topk_sweep": [
+    {
+      "k": 1,
+      "recall_all": 0.357,
+      "recall_test": 0.306,
+      "prompt_tokens_est": {
+        "mean": 270,
+        "p95": 346,
+        "max": 348
+      },
+      "cost_usd_per_task": {
+        "one_call_out150": 0.0004171,
+        "one_call_out400max": 0.0009803,
+        "two_call_tool_path_out150x2": 0.0009223
+      },
+      "share_routed_to_tool_by_rules": 0.208
+    },
+    {
+      "k": 3,
+      "recall_all": 0.645,
+      "recall_test": 0.5,
+      "prompt_tokens_est": {
+        "mean": 566,
+        "p95": 677,
+        "max": 687
+      },
+      "cost_usd_per_task": {
+        "one_call_out150": 0.0005041,
+        "one_call_out400max": 0.0010673,
+        "two_call_tool_path_out150x2": 0.0010962
+      },
+      "share_routed_to_tool_by_rules": 0.208
+    },
+    {
+      "k": 5,
+      "recall_all": 0.81,
+      "recall_test": 0.771,
+      "prompt_tokens_est": {
+        "mean": 845,
+        "p95": 1000,
+        "max": 1008
+      },
+      "cost_usd_per_task": {
+        "one_call_out150": 0.0005859,
+        "one_call_out400max": 0.0011491,
+        "two_call_tool_path_out150x2": 0.0012598
+      },
+      "share_routed_to_tool_by_rules": 0.208
+    },
+    {
+      "k": 8,
+      "recall_all": 0.854,
+      "recall_test": 0.792,
+      "prompt_tokens_est": {
+        "mean": 1292,
+        "p95": 1482,
+        "max": 1538
+      },
+      "cost_usd_per_task": {
+        "one_call_out150": 0.0007168,
+        "one_call_out400max": 0.00128,
+        "two_call_tool_path_out150x2": 0.0015216
+      },
+      "share_routed_to_tool_by_rules": 0.208
+    },
+    {
+      "k": 10,
+      "recall_all": 0.903,
+      "recall_test": 0.875,
+      "prompt_tokens_est": {
+        "mean": 1573,
+        "p95": 1780,
+        "max": 1794
+      },
+      "cost_usd_per_task": {
+        "one_call_out150": 0.0007993,
+        "one_call_out400max": 0.0013625,
+        "two_call_tool_path_out150x2": 0.0016866
+      },
+      "share_routed_to_tool_by_rules": 0.208
+    }
+  ],
+  "extractive_latency_ms": {
+    "n": 720,
+    "p50": 0.22,
+    "p95": 0.36,
+    "p99": 0.44,
+    "per_span_p50": {
+      "pii_redact": 0.01,
+      "guard_in": 0,
+      "scope": 0.08,
+      "retrieve": 0.08,
+      "tool:lookup_tier": 0.01,
+      "extractive": 0.05,
+      "guard_out": 0.01
+    }
+  },
+  "not_run": [
+    "vector (bge-base) and hybrid RRF retrieval — needs Workers AI embeddings",
+    "LLM answer quality and real token usage — needs Workers AI",
+    "edge latency on Cloudflare"
+  ]
+}
